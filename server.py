@@ -27,7 +27,7 @@ def respond_candidate():
     result = convert_annot.candidate_selection(history, candidates)
     total_time = time.time() - start_time
     logger.info(f"Annotator candidate selection time: {total_time: .3f}s")
-    return jsonify(result)
+    return jsonify(str(result))
 
 
 @app.route("/conv_annot_response", methods=["POST"])

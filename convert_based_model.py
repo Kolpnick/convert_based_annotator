@@ -46,7 +46,7 @@ class DataGenerator(tf.compat.v2.keras.utils.Sequence):
 class ConveRTAnnotator:
     def __init__(self):
         if TRAINED_MODEL_PATH:
-            self.model = tf.keras.models.load_model(TRAINED_MODEL_PATH)
+            self.model_path = TRAINED_MODEL_PATH
         else:
             self.__prepare_data()
             self.__create_model()
@@ -104,9 +104,11 @@ class ConveRTAnnotator:
                                  workers=6, epochs=100,
                                  callbacks=[model_checkpoint, csv_logger, tensorboard, early_stopping])
         
-        self.model.save(CACHE_DIR + '/model/model.h5')
+        self.model.save(CACHE_DIR + '/model.h5')
+        self.model_path = CACHE_DIR + '/model.h5'
     
     def candidate_selection(self, vectorized_history, candidates, threshold=0.8):
+        self.model = tf.keras.models.load_model(self.model_path)
         labels = {0: 'no_contradiciton', 1: 'neutral', 2: 'contradiciton'}
         rez_dict = dict(zip(candidates, [{'decision': labels[0], labels[0]: 1.0, labels[1]: 0.0, labels[2]: 0.0}]*len(candidates)))
         if vectorized_history:
