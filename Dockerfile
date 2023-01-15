@@ -14,5 +14,4 @@ RUN tar -xf nocontext_tf_model.tar.gz --directory convert_model
 
 ENV TRAINED_MODEL_PATH model.h5
 ENV CACHE_DIR cache
-ENV DATA_DIR data
-ENV CONVERT_DIR convert_model
+ENV CONVERT_MODEL_PATH convert_model

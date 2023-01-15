@@ -3,7 +3,7 @@ import numpy as np
 import time
 from os import getenv
 
-import convert_annotator
+from convert_annotator import ConveRTAnnotator
 import sentry_sdk
 from flask import Flask, jsonify, request
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-convert_annot = convert_annotator.ConveRTAnnotator()
+annotator = ConveRTAnnotator()
 logger.info("Annotator is loaded.")
 
 
@@ -24,7 +24,7 @@ def respond_candidate():
     start_time = time.time()
     candidates = request.json['candidates']
     history = request.json['history']
-    result = convert_annot.candidate_selection(history, candidates)
+    result = annotator.candidate_selection(history, candidates)
     total_time = time.time() - start_time
     logger.info(f"Annotator candidate selection time: {total_time: .3f}s")
     return jsonify(str(result))
@@ -34,7 +34,7 @@ def respond_candidate():
 def respond_response():
     start_time = time.time()
     response = request.json['response']
-    result = convert_annot.response_encoding(response)
+    result = annotator.response_encoding(response)
     total_time = time.time() - start_time
     logger.info(f"Annotator response encoding time: {total_time: .3f}s")
     return jsonify(result)
