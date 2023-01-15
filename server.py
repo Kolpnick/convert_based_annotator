@@ -3,7 +3,7 @@ import numpy as np
 import time
 from os import getenv
 
-import convert_based_model
+import convert_annotator
 import sentry_sdk
 from flask import Flask, jsonify, request
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-convert_annot = convert_based_model.ConveRTAnnotator()
+convert_annot = convert_annotator.ConveRTAnnotator()
 logger.info("Annotator is loaded.")
 
 

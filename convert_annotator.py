@@ -7,7 +7,7 @@ import tensorflow_hub as tfhub
 
 import itertools
 
-from sentence_encoder import SentenceEncoder
+from encoder import SentenceEncoder
 
 
 TRAINED_MODEL_PATH = os.environ.get("TRAINED_MODEL_PATH", None)
