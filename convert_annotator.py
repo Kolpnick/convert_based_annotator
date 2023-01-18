@@ -48,9 +48,9 @@ class ConveRTAnnotator:
     def __init__(self):
         self.encoder = Encoder()
 
-        if TRAINED_MODEL_PATH:
+        try:
             self.model_path = TRAINED_MODEL_PATH
-        else:
+        except:
             self.__prepare_data()
             self.__create_model()
             self.__train_model()
@@ -151,7 +151,7 @@ class ConveRTAnnotator:
     
     def candidate_selection(self, vectorized_history, candidates, threshold=0.8):
         self.model = tf.keras.models.load_model(self.model_path)
-        labels = {0: 'no_contradiciton', 1: 'neutral', 2: 'contradiciton'}
+        labels = {0: 'entailment', 1: 'neutral', 2: 'contradiction'}
         rez_dict = dict(zip(candidates, [{'decision': labels[0], labels[0]: 1.0, labels[1]: 0.0, labels[2]: 0.0}]*len(candidates)))
         if vectorized_history:
             vectorized_candidates = self.__multiple_responses_encoding(candidates)
